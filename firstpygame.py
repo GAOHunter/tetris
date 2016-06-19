@@ -1,13 +1,14 @@
+#intro from http://www.pygame.org/docs/tut/intro/intro.html
 import sys, pygame
 pygame.init()
 
-size = width, height = 320, 240
+size = width, height = 640, 480
 speed = [2, 2]
 black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 
-ball = pygame.image.load("ball.bmp")
+ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
 
 while 1:
