@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 
 #if not pygame.mixer: print 'Warning, sound disabled'
-if not pygame.font: print 'Warn_ing, fonts disabled'
+if not pygame.font: print 'Warning, fonts disabled'
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('chimpdata', name)
@@ -105,7 +105,7 @@ class Chimp(pygame.sprite.Sprite):
 
 def main():
     """This function is called when the program starts.
-        It initializes everything it needs, then runs 
+        It initializes everything it needs, then runs
         in a loop until the function returns."""
     #Initialize Everything
     pygame.init()
