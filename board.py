@@ -11,8 +11,36 @@ class Board(pygame.sprite.Sprite):
         self.rect = (100, 100) #need these to not be literal, use a var
         self.width = 10
         self.height = 20
-        #self.cellArr = [[Cell(x, y) for x in range(self.width)] for y in range(self.height)]
+        self.blockGroup = pygame.sprite.Group()
+        self.blockMatrix = [[False for x in range(self.width)] for y in range(self.height)]
+        self.highestList = [20]*10
 
-    #def checkLines(self):
+    def clearLines(self):
+        for line in self.blockMatrix:
+            lineComplete = True
+            for block in line:
+                if block == False:
+                    lineComplete = False
+            if lineComplete:
+                self.updateBlocks(self.blockMatrix.index(line))
+                self.blockMatrix.remove(line)
+                newLine = [False]*10
+                self.blockMatrix.insert(0, newLine)
+                for block in line:
+                    self.blockGroup.remove(block)
+        self.findHighest()
 
-    #def clearLines(self):
+    def updateBlocks(self, lineNumber):
+        for i in range(0, lineNumber):
+            line = self.blockMatrix[i]
+            for block in line:
+                if block != False:
+                    block.y += 1
+                    block.rect = (25*block.x+100,25*block.y+100)
+
+    def findHighest(self):
+        self.highestList = [20]*10
+        for line in reversed(self.blockMatrix):
+            for block in line:
+                if block != False:
+                    self.highestList[block.x] = block.y

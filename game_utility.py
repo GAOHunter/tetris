@@ -10,6 +10,7 @@ J_MINO = 4
 L_MINO = 5
 S_MINO = 6
 Z_MINO = 7
+GHOST = 8
 
 DOWN = 10
 RIGHT = 11
