@@ -69,8 +69,21 @@ class Mino():
         for i in range(0, 4):
             ghostBlock = Block(GHOST)
             self.ghostBlockList.append(ghostBlock)
+
+    def activate(self):
+        self.x = 4
+        self.y = 1
+        self.updateBlocks(self.x, self.y)
+        for ghostBlock in self.ghostBlockList:
             self.blockGroup.add(ghostBlock)
         self.updateGhostBlocks()
+
+    def deactivate(self):
+        self.x = 13
+        self.y = 0
+        for ghostBlock in self.ghostBlockList:
+            self.blockGroup.remove(ghostBlock)
+        self.updateBlocks(self.x, self.y)
 
     def updateBlocks(self, x = None, y = None):
         for i in range(0, 4):
@@ -81,7 +94,7 @@ class Mino():
             (dx, dy) = self.rotationList[self.rotation][i]
             self.blockList[i].x = self.x+dx
             self.blockList[i].y = self.y+dy
-            self.blockList[i].rect = (25*(self.x+dx)+100,25*(self.y+dy)+100)
+            self.blockList[i].rect = (25*(self.x+dx)+BOARD_X,25*(self.y+dy)+BOARD_Y)
         #starting numbers here should not be literal, use a var
 
     def updateGhostBlocks(self):
@@ -90,7 +103,7 @@ class Mino():
             (dx, dy) = self.rotationList[self.rotation][i]
             self.ghostBlockList[i].x = hx+dx
             self.ghostBlockList[i].y = hy+dy
-            self.ghostBlockList[i].rect = (25*(hx+dx)+100,25*(hy+dy)+100)
+            self.ghostBlockList[i].rect = (25*(hx+dx)+BOARD_X,25*(hy+dy)+BOARD_Y)
 
     def canMove(self, direction):
         canMove = True

@@ -8,7 +8,7 @@ class Board(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("grid.gif")
-        self.rect = (100, 100) #need these to not be literal, use a var
+        self.rect = (BOARD_X, BOARD_Y) #need these to not be literal, use a var
         self.width = 10
         self.height = 20
         self.blockGroup = pygame.sprite.Group()
@@ -36,7 +36,7 @@ class Board(pygame.sprite.Sprite):
             for block in line:
                 if block != False:
                     block.y += 1
-                    block.rect = (25*block.x+100,25*block.y+100)
+                    block.rect = (25*block.x+BOARD_X,25*block.y+BOARD_Y)
 
     def findHighest(self):
         self.highestList = [20]*10

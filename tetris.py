@@ -8,11 +8,13 @@ from block import Block, Mino
 
 SCREEN_SIZE = 500, 800
 
-# TODO: fix bugs with line clearing(should be good), hard drop
+# TODO: fix bugs with line clearing(should be good), hard drop (when you pass the highest)
 # TODO: add game over
 # TODO: add score, clock, up next queue, holds, pictures
 # TODO: fix rotation stuff
-# TODO: problem with keyboard input
+# TODO: problems with keyboard input
+# TODO: clean and organize code
+# TODO: colors
 
 def main():
     pygame.init()
@@ -27,8 +29,14 @@ def main():
     background = pygame.Surface(screen.get_size())
     background = background.convert()
     background.fill((0, 0, 0))
+
+    tetrisLogo, _ = load_image("tetrislogo.jpg")
+
+
     board = Board()
     boardPanel = pygame.sprite.Group(board)
+    upNextList = [Mino(board) for x in range(3)]
+    heldMino = None
     newMino = True
 
     while 1:
@@ -36,7 +44,12 @@ def main():
         time += clock.get_time()
 
         if newMino:
-            mino = Mino(board)
+            mino = upNextList.pop(0)
+            mino.activate()
+            upNextList.append(Mino(board))
+            for i in range(3):
+                upNextList[i].updateBlocks(x = 13, y = 5 +(5*i))
+                upNextList[i].blockGroup.update()
             newMino = False
 
         if time >= timeLimit:
@@ -53,6 +66,24 @@ def main():
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     return
+                if keys[K_c]:
+                    if heldMino != None:
+                        temp = mino
+                        mino = heldMino
+                        heldMino = temp
+                        heldMino.deactivate()
+                        heldMino.blockGroup.update()
+                        mino.activate()
+                    else:
+                        heldMino = mino
+                        heldMino.deactivate()
+                        heldMino.blockGroup.update()
+                        mino = upNextList.pop(0)
+                        upNextList.append(Mino(board))
+                        for i in range(3):
+                            upNextList[i].updateBlocks(x = 13, y = 5 +(5*i))
+                            upNextList[i].blockGroup.update()
+                        mino.activate()
                 if keys[K_DOWN]:
                     hardDrop = True
                 elif keys[K_UP]:
@@ -74,7 +105,12 @@ def main():
         board.clearLines()
 
         screen.blit(background, (0, 0))
+        screen.blit(tetrisLogo, (125, 25))
         boardPanel.draw(screen)
+        for upNextMino in upNextList:
+            upNextMino.blockGroup.draw(screen)
+        if heldMino != None:
+            heldMino.blockGroup.draw(screen)
         board.blockGroup.draw(screen)
         mino.blockGroup.draw(screen)
         pygame.display.flip()

@@ -19,6 +19,9 @@ LEFT = 12
 CLOCK = 20
 COUNTERCLOCK = 21
 
+BOARD_X = 50
+BOARD_Y = 250
+
 def load_image(name, colorkey=None):
     fullname = os.path.join('tetrisdata', name)
     try:
